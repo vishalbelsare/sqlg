@@ -1165,10 +1165,12 @@ public class SchemaTableTree {
                     ), c AS (
                         SELECT * from %s
                     )
-                    SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.end_vid FROM
+                    SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.end_vid 
+                    FROM
                         a JOIN
                         b ON a.node = b."ID" LEFT JOIN
                         c ON a.edge = c."ID"
+                    ORDER BY a.seq
                     """;
             sql = sql.formatted(
                             idAlias, targetAlias, sourceAlias, costAlias, reverseCostAlias,
@@ -1196,10 +1198,12 @@ public class SchemaTableTree {
                     ), c AS (
                         SELECT * from %s
                     )
-                    SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.end_vid FROM
+                    SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.end_vid 
+                    FROM
                         a JOIN
                         b ON a.node = b."ID" LEFT JOIN
                         c ON a.edge = c."ID"
+                    ORDER BY a.seq
                     """;
             sql = sql.formatted(
                             idAlias, targetAlias, sourceAlias, costAlias,
@@ -1301,10 +1305,12 @@ public class SchemaTableTree {
                     ), c AS (
                         SELECT * from %s
                     )
-                    SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.end_vid, a.path_id FROM
+                    SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.end_vid, a.path_id 
+                    FROM
                         a JOIN
                         b ON a.node = b."ID" LEFT JOIN
                         c ON a.edge = c."ID"
+                    ORDER BY a.seq
                     """;
             sql = sql.formatted(
                             idAlias, targetAlias, sourceAlias, costAlias, reverseCostAlias,
@@ -1333,10 +1339,12 @@ public class SchemaTableTree {
                     ), c AS (
                         SELECT * from %s
                     )
-                    SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.end_vid, a.path_id FROM
+                    SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.end_vid, a.path_id 
+                    FROM
                         a JOIN
                         b ON a.node = b."ID" LEFT JOIN
                         c ON a.edge = c."ID"
+                    ORDER BY a.seq
                     """;
             sql = sql.formatted(
                             idAlias, targetAlias, sourceAlias, costAlias,
@@ -1436,10 +1444,12 @@ public class SchemaTableTree {
                 ), c AS (
                     SELECT * from %s
                 )
-                SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a.depth, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.pred FROM
+                SELECT c."ID" as edge_id {edgeColumns}, c.{inForeignKey}, c.{outForeignKey}, b."ID" as vertex_id {vertexColumns}, a.depth, a."cost" as "%s", a.agg_cost as "%s", a.start_vid, a.pred 
+                FROM
                     a JOIN
                     b ON a.node = b."ID" LEFT JOIN
                     c ON a.edge = c."ID"
+                ORDER BY a.seq
                 """
                 .formatted(
                         idAlias, sourceAlias, targetAlias, costAlias, reverseCostAlias,
@@ -1527,6 +1537,7 @@ public class SchemaTableTree {
                 SELECT b."ID" as vertex_id {vertexColumns}, a."component" as "traversal_component" FROM
                     a JOIN
                     b ON a.node = b."ID"
+                ORDER BY a.seq
                 """
                 .formatted(
                         idAlias, sourceAlias, targetAlias, costAlias, reverseCostAlias,
