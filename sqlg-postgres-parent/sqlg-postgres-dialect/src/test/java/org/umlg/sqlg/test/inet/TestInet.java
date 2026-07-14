@@ -12,9 +12,32 @@ import org.umlg.sqlg.structure.topology.Schema;
 import org.umlg.sqlg.test.BaseTest;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class TestInet extends BaseTest {
+
+    @Test
+    public void testInetWithLinkedHashMap() {
+        Schema publicSchema = this.sqlgGraph.getTopology().getPublicSchema();
+        publicSchema.ensureVertexLabelExist("InetTest", new HashMap<>() {{
+            put("name", PropertyDefinition.of(PropertyType.STRING));
+            put("ip", PropertyDefinition.of(PropertyType.PGINET));
+        }});
+        this.sqlgGraph.tx().commit();
+
+        LinkedHashMap<String, Object> properties = new LinkedHashMap<>();
+        properties.put("name", "a");
+        properties.put("ip", new PGinet("23.239.26.161/24"));
+        Vertex v1 = this.sqlgGraph.addVertex("InetTest", properties);
+        this.sqlgGraph.tx().commit();
+
+        List<Vertex> ips = this.sqlgGraph.traversal().V().hasLabel("InetTest").toList();
+        Assert.assertEquals(1, ips.size());
+        Vertex ip = ips.get(0);
+        Assert.assertEquals("a", ip.value("name"));
+        Assert.assertEquals("23.239.26.161/24", ip.value("ip").toString());
+    }
 
     @Test
     public void testInet() {
